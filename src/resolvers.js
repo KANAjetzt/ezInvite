@@ -1,21 +1,16 @@
-// Some fake data
-const books = [
-  {
-    title: "Harry Potter and the Sorcerer's stone",
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-]
+const Cat = require('./models/Cat')
 
 // The resolvers
 const resolvers = {
-  Query: { books: () => books },
+  Query: {
+    cats: () => Cat.find(),
+  },
+  Mutation: {
+    createCat: (_, { name }) => {
+      const kitty = new Cat({ name })
+      return kitty.save()
+    },
+  },
 }
-
-// const kitty = new Cat({ name: 'Zildjian' })
-// kitty.save().then(() => console.log('meow'))
 
 module.exports = resolvers

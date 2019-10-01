@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
+// Error Handling
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! Shutting down...')
   console.log(err)
@@ -15,6 +16,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 )
 
+// Connect to the DB
 mongoose
   .connect(DB, {
     useUnifiedTopology: true,
@@ -30,6 +32,7 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`)
 })
 
+// Error Handling
 process.on('unhandledRejection', err => {
   console.log(err.name, err.message)
   console.log('UNHANDELD REJECTION! Shutting down...')
