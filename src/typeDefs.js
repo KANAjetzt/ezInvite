@@ -1,17 +1,16 @@
-// The GraphQL schema in string form
 const typeDefs = `
-  type Query { 
-    cats: [Cat!]!
-  }
- 
-  type Cat {
-    id: ID!
-    name: String!
-  }
-  
-  type Mutation {
-    createCat(name: String!): Cat!
-  }
-`
+type Query { 
+  users: [User!]!
+}
 
+type User {
+  id: ID!
+  name: String!
+  photo: String
+}
+
+type Mutation {
+  createUser(name: String!): User!
+}
+`
 module.exports = typeDefs

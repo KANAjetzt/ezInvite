@@ -5,8 +5,8 @@ const expressPlayground = require('graphql-playground-middleware-express')
   .default
 const { makeExecutableSchema } = require('graphql-tools')
 
-const resolvers = require('./resolvers')
 const typeDefs = require('./typeDefs')
+const resolvers = require('./resolvers')
 
 const app = express()
 

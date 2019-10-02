@@ -1,14 +1,14 @@
-const Cat = require('./models/Cat')
+const User = require('./models/userModel')
 
-// The resolvers
 const resolvers = {
   Query: {
-    cats: () => Cat.find(),
+    users: () => User.find(),
   },
+
   Mutation: {
-    createCat: (_, { name }) => {
-      const kitty = new Cat({ name })
-      return kitty.save()
+    createUser: (_, { name, photo }) => {
+      const user = new User({ name, photo })
+      return user.save()
     },
   },
 }
