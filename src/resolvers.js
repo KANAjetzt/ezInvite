@@ -1,16 +1,7 @@
-const User = require('./models/userModel')
+const merge = require('lodash/merge')
 
-const resolvers = {
-  Query: {
-    users: () => User.find(),
-  },
+const userResolvers = require('./api/user/userResolvers')
 
-  Mutation: {
-    createUser: (_, { name, photo }) => {
-      const user = new User({ name, photo })
-      return user.save()
-    },
-  },
-}
+const resolvers = merge(userResolvers)
 
 module.exports = resolvers

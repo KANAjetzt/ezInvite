@@ -15,7 +15,9 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "graphql-playground-middleware-express": "^1.7.12",
+    "graphql-tag": "^2.10.1",
     "graphql-tools": "^4.0.5",
+    "lodash": "^4.17.15",
     "mongoose": "^5.7.3"
   },
   "devDependencies": {
@@ -23,6 +25,7 @@
     "@babel/core": "^7.6.2",
     "@babel/node": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
+    "babel-plugin-inline-import": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-prettier": "^4.1.0",

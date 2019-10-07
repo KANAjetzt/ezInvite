@@ -1,16 +1,5 @@
-const typeDefs = `
-type Query { 
-  users: [User!]!
-}
+const userSchema = require('./api/user/userSchema')
 
-type User {
-  id: ID!
-  name: String!
-  photo: String
-}
+const typeDefs = [userSchema]
 
-type Mutation {
-  createUser(name: String!): User!
-}
-`
 module.exports = typeDefs
