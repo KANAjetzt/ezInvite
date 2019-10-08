@@ -30,6 +30,18 @@ const eventSchema = new mongoose.Schema({
     address: String,
     description: String,
   },
+  users: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  widgets: [
+    {
+      type: {
+        type: String,
+        required: [
+          true,
+          'Please provide a Widget type! (for example: todoList)',
+        ],
+      },
+    },
+  ],
 })
 
 const Event = mongoose.model('Event', eventSchema)

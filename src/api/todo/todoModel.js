@@ -6,9 +6,19 @@ const todoSchema = new mongoose.Schema({
     ref: 'TodoList',
     required: [true, 'A Todolist has to be coonected with a widget!'],
   },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
+  users: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  ],
+  text: {
+    type: String,
+    required: [true, 'Please provide some text about what you bring.'],
+  },
+  requiredPersons: {
+    type: Number,
+    default: 1,
   },
 })
 

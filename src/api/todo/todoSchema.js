@@ -3,12 +3,18 @@ const gql = require('graphql-tag')
 const todoSchema = gql`
   type Todo {
     id: ID!
-    todoList: String!
-    user: String
+    todoListId: ID!
+    users: [ID]
+    text: String!
+    requiredPersons: Int
   }
 
   extend type Query {
     todos: [Todo!]!
+  }
+
+  extend type Mutation {
+    createTodo(todoListId: ID!, text: String!, requiredPersons: Int): Todo
   }
 `
 

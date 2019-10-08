@@ -15,12 +15,18 @@ const eventSchema = gql`
     heroImg: String
     imgs: [String]
     location: String
-    WidgetID: String
-    userID: [String]
+    widgets: [Widget]
+    users: [ID]
+  }
+
+  type Widget {
+    id: ID!
+    type: String!
   }
 
   extend type Query {
     events: [Event!]!
+    widgets: [Widget]
   }
 
   extend type Mutation {

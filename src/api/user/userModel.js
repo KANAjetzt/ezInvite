@@ -9,6 +9,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default.jpg',
   },
+  evnts: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Event',
+    },
+  ],
 })
 
 const User = mongoose.model('User', userSchema)

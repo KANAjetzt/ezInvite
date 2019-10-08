@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 const Event = require('./eventModel.js')
 
 const eventResolvers = {
