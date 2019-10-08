@@ -30,7 +30,17 @@ const eventSchema = gql`
   }
 
   extend type Mutation {
-    createEvent(name: String!, date: String!): Event!
+    createEvent(
+      name: String!
+      date: String!
+      startTime: String
+      endTime: String
+      description: String
+      heroImg: String
+      imgs: [String]
+      location: String
+      widgetTypes: [String]
+    ): Event!
   }
 `
 

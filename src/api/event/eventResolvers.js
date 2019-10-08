@@ -6,8 +6,32 @@ const eventResolvers = {
   },
 
   Mutation: {
-    createEvent: (_, { name, date }) => {
-      const event = new Event({ name, date })
+    createEvent: (
+      _,
+      {
+        name,
+        date,
+        startTime,
+        endTime,
+        description,
+        heroImg,
+        imgs,
+        location,
+        widgetTypes,
+      }
+    ) => {
+      const event = new Event({
+        name,
+        date,
+        startTime,
+        endTime,
+        description,
+        heroImg,
+        imgs,
+        location,
+        widgets: [{ type: `${widgetTypes}` }],
+      })
+
       return event.save()
     },
   },

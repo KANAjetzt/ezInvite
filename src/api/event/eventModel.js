@@ -9,8 +9,8 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'Please provide the Date of your Event'],
   },
-  startTime: Date,
-  endTime: Date,
+  startTime: String,
+  endTime: String,
   description: String,
   heroImg: {
     type: String,
