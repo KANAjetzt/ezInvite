@@ -14,7 +14,9 @@ const todoSchema = gql`
   }
 
   extend type Mutation {
-    createTodo(todoListId: ID!, text: String!, requiredPersons: Int): Todo
+    createTodo(widget: ID!, text: String!, requiredPersons: Int): Todo!
+    updateTodo(id: ID!, text: String, requiredPersons: Int, users: [ID]): Todo!
+    deleteTodo(id: ID!): Todo
   }
 `
 

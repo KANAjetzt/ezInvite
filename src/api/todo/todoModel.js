@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 const todoSchema = new mongoose.Schema({
-  todoList: {
+  widget: {
     type: mongoose.Schema.ObjectId,
-    ref: 'TodoList',
-    required: [true, 'A Todolist has to be coonected with a widget!'],
+    ref: 'Widget',
+    required: [true, 'A todo has to be associated with a widget!'],
   },
   users: [
     {

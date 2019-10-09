@@ -1,4 +1,5 @@
 const Todo = require('./todoModel')
+const { createOne, updateOne, deleteOne } = require('../resolverFactory')
 
 const todoResolvers = {
   Query: {
@@ -6,10 +7,9 @@ const todoResolvers = {
   },
 
   Mutation: {
-    createTodo: (_, { todoListId, text, requiredPersons }) => {
-      const todo = new Todo({ todoListId, text, requiredPersons })
-      return todo.save()
-    },
+    createTodo: (_, args) => createOne(Todo, args),
+    updateTodo: (_, args) => updateOne(Todo, args),
+    deleteTodo: (_, args) => deleteOne(Todo, args),
   },
 }
 
