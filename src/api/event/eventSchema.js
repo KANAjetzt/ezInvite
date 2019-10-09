@@ -41,7 +41,7 @@ const eventSchema = gql`
     ): Event!
 
     updateEvent(
-      eventId: ID!
+      id: ID!
       name: String
       date: String
       startTime: String
@@ -53,7 +53,7 @@ const eventSchema = gql`
       widgetTypes: [String]
     ): Event!
 
-    deleteEvent(eventId: ID!): Event
+    deleteEvent(id: ID!): Event
   }
 `
 

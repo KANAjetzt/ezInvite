@@ -1,4 +1,5 @@
 const Event = require('./eventModel.js')
+const { createOne, updateOne, deleteOne } = require('../resolverFactory')
 
 const eventResolvers = {
   Query: {
@@ -21,7 +22,7 @@ const eventResolvers = {
         widgetTypes,
       }
     ) => {
-      const event = new Event({
+      const event = {
         name,
         startDate,
         endDate,
@@ -32,19 +33,13 @@ const eventResolvers = {
         imgs,
         location,
         widgets: [{ type: `${widgetTypes}` }],
-      })
+      }
 
-      return event.save()
+      return createOne(Event, event)
     },
 
-    updateEvent: (_, args) => {
-      const body = { ...args }
-      delete body.eventId
-
-      return Event.findByIdAndUpdate(args.eventId, body)
-    },
-
-    deleteEvent: (_, { eventId }) => Event.findByIdAndRemove(eventId),
+    updateEvent: (_, args) => updateOne(Event, args),
+    deleteEvent: (_, { id }) => deleteOne(Event, id),
   },
 }
 
