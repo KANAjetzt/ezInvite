@@ -5,10 +5,11 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a name for your Event!'],
   },
-  date: {
+  startDate: {
     type: Date,
     required: [true, 'Please provide the Date of your Event'],
   },
+  endDate: Date,
   startTime: String,
   endTime: String,
   description: String,

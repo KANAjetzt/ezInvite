@@ -10,7 +10,8 @@ const eventResolvers = {
       _,
       {
         name,
-        date,
+        startDate,
+        endDate,
         startTime,
         endTime,
         description,
@@ -22,7 +23,8 @@ const eventResolvers = {
     ) => {
       const event = new Event({
         name,
-        date,
+        startDate,
+        endDate,
         startTime,
         endTime,
         description,
@@ -34,6 +36,15 @@ const eventResolvers = {
 
       return event.save()
     },
+
+    updateEvent: (_, args) => {
+      const body = { ...args }
+      delete body.eventId
+
+      return Event.findByIdAndUpdate(args.eventId, body)
+    },
+
+    deleteEvent: (_, { eventId }) => Event.findByIdAndRemove(eventId),
   },
 }
 

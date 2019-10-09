@@ -1,14 +1,11 @@
 const gql = require('graphql-tag')
 
-/*
-TODO: - Add a Date Range 12.12 - 14.12 z.B. 
-*/
-
 const eventSchema = gql`
   type Event {
     id: ID!
     name: String!
-    date: String!
+    startDate: String!
+    endDate: String
     startTime: String
     endTime: String
     description: String
@@ -32,7 +29,8 @@ const eventSchema = gql`
   extend type Mutation {
     createEvent(
       name: String!
-      date: String!
+      startDate: String!
+      endDate: String
       startTime: String
       endTime: String
       description: String
@@ -41,6 +39,21 @@ const eventSchema = gql`
       location: String
       widgetTypes: [String]
     ): Event!
+
+    updateEvent(
+      eventId: ID!
+      name: String
+      date: String
+      startTime: String
+      endTime: String
+      description: String
+      heroImg: String
+      imgs: [String]
+      location: String
+      widgetTypes: [String]
+    ): Event!
+
+    deleteEvent(eventId: ID!): Event
   }
 `
 
