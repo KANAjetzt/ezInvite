@@ -29,6 +29,7 @@ const eventSchema = new mongoose.Schema({
       enum: ['Point'],
     },
     coordinates: [Number],
+    name: String,
     address: String,
     description: String,
   },
@@ -48,12 +49,13 @@ const eventSchema = new mongoose.Schema({
 
 // Emit Event widgetCreated when ever a new Event is created,
 // this event is used to create new Todo List or other Widgets - based on ther type.
-eventSchema.post('save', function(doc, next) {
-  if (!doc.widgets[0]) return next()
+//! Not in use at the moment
+// eventSchema.post('save', function(doc, next) {
+//   if (!doc.widgets[0]) return next()
 
-  myEmitter.emit('widgetCreated', doc.widgets)
-  next()
-})
+//   myEmitter.emit('widgetCreated', doc.widgets)
+//   next()
+// })
 
 const Event = mongoose.model('Event', eventSchema)
 

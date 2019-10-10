@@ -11,7 +11,7 @@ const eventSchema = gql`
     description: String
     heroImg: String
     imgs: [String]
-    location: String
+    location: Location
     widgets: [Widget]
     users: [ID]
   }
@@ -21,7 +21,22 @@ const eventSchema = gql`
     type: String!
   }
 
+  type Location {
+    coordinates: [Float!]!
+    name: String
+    address: String
+    description: String
+  }
+
+  input CreateLocationInput {
+    coordinates: [Float!]!
+    name: String
+    address: String
+    description: String
+  }
+
   extend type Query {
+    event(id: ID!): Event!
     events: [Event!]!
     widgets: [Widget]
   }
@@ -36,7 +51,7 @@ const eventSchema = gql`
       description: String
       heroImg: String
       imgs: [String]
-      location: String
+      location: CreateLocationInput
       widgetTypes: [String]
     ): Event!
 
