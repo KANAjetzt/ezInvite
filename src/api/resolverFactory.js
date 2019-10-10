@@ -7,3 +7,6 @@ exports.updateOne = async (Model, body) =>
   })
 
 exports.deleteOne = async (Model, id) => await Model.findByIdAndRemove(id)
+
+exports.findOne = async (Model, id) => await Model.findById(id)
+exports.findAll = async Model => await Model.find()

@@ -9,10 +9,13 @@ const userSchema = gql`
     id: ID!
     name: String!
     photo: String
+    accapted: Boolean
+    link: String
+    events: [ID!]
   }
 
   type Mutation {
-    createUser(name: String!): User!
+    createUser(name: String!, event: ID!, photo: String): User!
   }
 `
 

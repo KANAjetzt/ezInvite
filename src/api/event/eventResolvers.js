@@ -1,5 +1,13 @@
 const Event = require('./eventModel.js')
 const { createOne, updateOne, deleteOne } = require('../resolverFactory')
+const { myEmitter } = require('../../utils/events')
+
+// Create the user reverence when a new User is created
+myEmitter.on('userCreated', async props => {
+  await Event.findByIdAndUpdate(props.eventId, {
+    $push: { users: props.userId },
+  })
+})
 
 const eventResolvers = {
   Query: {

@@ -1,10 +1,19 @@
 const Todo = require('./todoModel')
-const { createOne, updateOne, deleteOne } = require('../resolverFactory')
+const {
+  findAll,
+  findOne,
+  createOne,
+  updateOne,
+  deleteOne,
+} = require('../resolverFactory')
 const AppError = require('../../utils/appError')
 
 const todoResolvers = {
   Query: {
-    todos: () => Todo.find(),
+    todos: () => findAll(Todo),
+    todo: (_, { id }) => {
+      return findOne(Todo, id)
+    },
   },
 
   Mutation: {

@@ -11,6 +11,7 @@ const todoSchema = gql`
 
   extend type Query {
     todos: [Todo!]!
+    todo(id: ID!): Todo!
   }
 
   extend type Mutation {
