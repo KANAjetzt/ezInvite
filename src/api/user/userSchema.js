@@ -2,6 +2,7 @@ const gql = require('graphql-tag')
 
 const userSchema = gql`
   type Query {
+    user(id: ID!): User!
     users: [User!]!
   }
 
@@ -9,13 +10,14 @@ const userSchema = gql`
     id: ID!
     name: String!
     photo: String
-    accapted: Boolean
+    accepted: Boolean
     link: String
     events: [ID!]
   }
 
   type Mutation {
     createUser(name: String!, event: ID!, photo: String): User!
+    toggleUserAccepted(id: ID!, accepted: Boolean): User!
   }
 `
 

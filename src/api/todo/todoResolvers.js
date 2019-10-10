@@ -18,6 +18,7 @@ const todoResolvers = {
 
   Mutation: {
     createTodo: (_, args) => createOne(Todo, args),
+
     updateTodo: (_, args) => {
       // If users are not updatet - simple update all given fields
       if (args.users)

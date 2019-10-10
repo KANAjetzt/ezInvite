@@ -1,9 +1,10 @@
 const User = require('./userModel')
-const { createOne } = require('../resolverFactory')
+const { findOne, findAll, createOne, updateOne } = require('../resolverFactory')
 
 const userResolvers = {
   Query: {
-    users: () => User.find(),
+    user: (_, { id }) => findOne(User, id),
+    users: () => findAll(User),
   },
 
   Mutation: {
@@ -19,6 +20,9 @@ const userResolvers = {
 
       return createOne(User, user)
     },
+    // ! For 1.1 this needs some work !
+    // ! User is set to accapted - with multiply events this will not work so ez
+    toggleUserAccepted: (_, args) => updateOne(User, args),
   },
 }
 
