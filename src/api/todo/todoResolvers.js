@@ -20,6 +20,7 @@ const todoResolvers = {
     },
     deleteTodo: (_, args) => deleteOne(Todo, args),
 
+    //TODO: Performance Optimisation
     //? Maybe add pre save hook that pushs new Users - would save 1 query
     addUserToTodo: async (_, { id, user }) => {
       const todo = await Todo.findById(id)
@@ -27,14 +28,20 @@ const todoResolvers = {
       return updateOne(Todo, todo)
     },
 
+    //TODO: Performance Optimisation
     //? Maybe add pre save hook that pushs new Users - would save 1 query
     removeUserFromTodo: async (_, { id, user }) => {
-      //! User wird aus der Todo gelöscht - allerdings wird das Document dann nicht zurück gegeben.
-      return await Todo.updateOne(
-        { _id: id },
-        { $pull: { users: { $in: [`${user}`] } } },
-        { new: true, runValidators: true }
-      )
+      const todo = await Todo.findById(id)
+
+      let deleted = false
+      todo.users.forEach((currentUser, i, arr) => {
+        if (`${currentUser}` === `${user}` && deleted === false) {
+          arr.splice(i, 1)
+          deleted = true
+        }
+      })
+
+      return updateOne(Todo, todo)
     },
   },
 }
