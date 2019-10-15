@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema({
   ],
 })
 
+userSchema.pre('save', function(next) {
+  //TODO: Generate a random URL Path --> this.link: /dfk2cls5kw7
+
+  next()
+})
+
 // This Event is used to create the user reference in the event document
 userSchema.post('save', function(doc, next) {
   console.log(doc)

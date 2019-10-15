@@ -57,6 +57,13 @@ const eventSchema = new mongoose.Schema({
 //   next()
 // })
 
+// ############# QUERY MIDDLEWARE ###############
+
+eventSchema.pre(/^find/, function(next) {
+  this.populate('users')
+  next()
+})
+
 const Event = mongoose.model('Event', eventSchema)
 
 module.exports = Event

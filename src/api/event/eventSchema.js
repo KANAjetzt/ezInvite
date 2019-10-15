@@ -13,7 +13,15 @@ const eventSchema = gql`
     imgs: [String]
     location: Location
     widgets: [Widget]
-    users: [ID]
+    users: [Users]
+  }
+
+  type Users {
+    id: ID!
+    name: String!
+    photo: String
+    accepted: Boolean
+    link: String
   }
 
   type Widget {
