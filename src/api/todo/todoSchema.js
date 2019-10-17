@@ -4,7 +4,7 @@ const todoSchema = gql`
   type Todo {
     id: ID!
     widget: ID!
-    users: [ID]
+    users: [User]
     text: String!
     requiredPersons: Int
   }

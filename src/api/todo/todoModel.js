@@ -22,6 +22,13 @@ const todoSchema = new mongoose.Schema({
   },
 })
 
+// ############# QUERY MIDDLEWARE ###############
+
+todoSchema.pre(/^find/, function(next) {
+  this.populate('users')
+  next()
+})
+
 const Todo = mongoose.model('Todo', todoSchema)
 
 module.exports = Todo

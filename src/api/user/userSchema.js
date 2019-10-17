@@ -17,6 +17,7 @@ const userSchema = gql`
 
   type Mutation {
     createUser(name: String!, event: ID!, photo: String): User!
+    updateUser(id: ID!, name: String, photo: String): User!
     toggleUserAccepted(id: ID!, accepted: Boolean): User!
   }
 `

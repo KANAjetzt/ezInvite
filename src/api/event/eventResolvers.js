@@ -52,7 +52,7 @@ const eventResolvers = {
 
       return createOne(Event, event)
     },
-
+    //! by updating the location non given fields get emptied
     updateEvent: (_, args) => updateOne(Event, args),
     deleteEvent: (_, { id }) => deleteOne(Event, id),
   },

@@ -20,6 +20,8 @@ const userResolvers = {
 
       return createOne(User, user)
     },
+    updateUser: (_, args) => updateOne(User, args),
+
     // ! For 1.1 this needs some work !
     // ! User is set to accapted - with multiply events this will not work so ez
     toggleUserAccepted: (_, args) => updateOne(User, args),
