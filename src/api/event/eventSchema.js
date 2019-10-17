@@ -72,7 +72,7 @@ const eventSchema = gql`
       description: String
       heroImg: String
       imgs: [String]
-      location: String
+      location: CreateLocationInput
       widgetTypes: [String]
     ): Event!
 

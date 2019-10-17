@@ -12,6 +12,7 @@ const todoSchema = gql`
   extend type Query {
     todos: [Todo!]!
     todo(id: ID!): Todo!
+    todosForWidget(id: ID!): [Todo]
   }
 
   extend type Mutation {

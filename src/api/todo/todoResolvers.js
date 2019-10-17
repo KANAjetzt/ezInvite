@@ -11,8 +11,10 @@ const AppError = require('../../utils/appError')
 const todoResolvers = {
   Query: {
     todos: () => findAll(Todo),
-    todo: (_, { id }) => {
-      return findOne(Todo, id)
+    todo: (_, { id }) => findOne(Todo, id),
+    //- todosForWidget(id: ID!): [Todo]
+    todosForWidget: async (_, { id }) => {
+      return await Todo.find({ widget: id })
     },
   },
 
