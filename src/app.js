@@ -1,4 +1,6 @@
+const path = require('path')
 const express = require('express')
+const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const expressPlayground = require('graphql-playground-middleware-express')
@@ -16,6 +18,15 @@ app.use(cors())
 
 // Complex requests --> everything that is not get / post, or sends custom headers or cookies.  )
 app.options('*', cors())
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')))
+console.log(path.join(__dirname, 'public'))
+
+// Developtment logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 // Put together a schema
 const schema = makeExecutableSchema({
