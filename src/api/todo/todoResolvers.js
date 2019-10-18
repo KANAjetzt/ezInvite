@@ -20,32 +20,34 @@ const todoResolvers = {
   Query: {
     todos: () => findAll(Todo),
     todo: (_, { id }) => findOne(Todo, id),
-    todosForWidget: async (_, { id }) => await Todo.find({ widget: id }),
 
-    // todosForWidget: async (_, { id }, context) => {
-    //   const todos = await Todo.find({ widget: id })
-    //   const newTodos = [...todos]
-    //   console.log(newTodos)
+    todosForWidget: async (_, { id }, context) => {
+      // Get all todos with the corresponding widget id.
+      const todos = await Todo.find({ widget: id })
 
-    //   newTodos.forEach((todo, iTodo) =>
-    //     todo.users.forEach((user, iUser, arrUsers) => {
-    //       arrUsers[iUser].photo = `${context.request.protocol}://${
-    //         context.request.hostname
-    //       }${
-    //         process.env.NODE_ENV === 'development'
-    //           ? `:${process.env.PORT || 3000}`
-    //           : ''
-    //       }/img/${todos[iTodo].users[iUser].photo}`
+      // Create a copy of todos - for safety reasons
+      const newTodos = [...todos]
 
-    //       console.log(iTodo, iUser)
-    //       console.log(context.request.protocol, context.request.hostname)
-    //       console.log(todos[iTodo].users[iUser].photo)
-    //     })
-    //   )
-
-    //   console.log(`todos ---> ${todos}`, ` newTodos --> ${newTodos}`)
-    //   return newTodos
-    // },
+      // Go in to every todo
+      newTodos.forEach(todo => {
+        // create a modified users array
+        const newUsers = todo.users.map(user => {
+          return {
+            // When spreading ...user we get the whole Query Object back - so select the ._doc <--
+            ...user._doc,
+            // Modify the photo field - the URL to the IMG is added
+            photo: `${context.request.protocol}://${context.request.hostname}${
+              process.env.NODE_ENV === 'development'
+                ? `:${process.env.PORT || 3000}`
+                : ''
+            }/img/${user.photo}`,
+          }
+        })
+        // Slam the modified users array in the todo object
+        todo.users = newUsers
+      })
+      return newTodos
+    },
   },
 
   Mutation: {
