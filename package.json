@@ -4,7 +4,8 @@
   "description": "ezInvite is an app to easily invite people to you'r event.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "debug": "ndb src/server.js"
   },
   "author": "Kai Roth",
   "license": "ISC",
@@ -36,6 +37,7 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
+    "ndb": "^1.1.5",
     "nodemon": "^1.19.3",
     "prettier": "^1.18.2"
   },

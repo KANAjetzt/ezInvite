@@ -23,11 +23,20 @@ const userSchema = new mongoose.Schema({
   ],
 })
 
+// ############# DOCUMENT MIDDLEWARE ###############
+
 userSchema.pre('save', function(next) {
   //TODO: Generate a random URL Path --> this.link: /dfk2cls5kw7
 
   next()
 })
+
+// // ############# QUERY MIDDLEWARE ###############
+
+// userSchema.pre(/^find/, function(next) {
+//   this.photo = `${}${this.photo}`
+//   next()
+// })
 
 // This Event is used to create the user reference in the event document
 userSchema.post('save', function(doc, next) {

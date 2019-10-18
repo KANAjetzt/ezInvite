@@ -35,7 +35,14 @@ const schema = makeExecutableSchema({
 })
 
 // The GraphQL endpoint
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress(request => ({
+    schema,
+    context: { request },
+  }))
+)
 
 // GraphQL Playground, a visual editor for queries
 app.get('/playground', expressPlayground({ endpoint: '/graphql' }))

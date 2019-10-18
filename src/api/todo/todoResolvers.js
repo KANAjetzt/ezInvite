@@ -8,14 +8,44 @@ const {
 } = require('../resolverFactory')
 const AppError = require('../../utils/appError')
 
+// `${context.request.protocol}://${
+//             context.request.hostname
+//           }${
+//             process.env.NODE_ENV === 'development'
+//               ? `:${process.env.PORT || 3000}`
+//               : ''
+//           }/img/${user.photo}`
+
 const todoResolvers = {
   Query: {
     todos: () => findAll(Todo),
     todo: (_, { id }) => findOne(Todo, id),
-    //- todosForWidget(id: ID!): [Todo]
-    todosForWidget: async (_, { id }) => {
-      return await Todo.find({ widget: id })
-    },
+    todosForWidget: async (_, { id }) => await Todo.find({ widget: id }),
+
+    // todosForWidget: async (_, { id }, context) => {
+    //   const todos = await Todo.find({ widget: id })
+    //   const newTodos = [...todos]
+    //   console.log(newTodos)
+
+    //   newTodos.forEach((todo, iTodo) =>
+    //     todo.users.forEach((user, iUser, arrUsers) => {
+    //       arrUsers[iUser].photo = `${context.request.protocol}://${
+    //         context.request.hostname
+    //       }${
+    //         process.env.NODE_ENV === 'development'
+    //           ? `:${process.env.PORT || 3000}`
+    //           : ''
+    //       }/img/${todos[iTodo].users[iUser].photo}`
+
+    //       console.log(iTodo, iUser)
+    //       console.log(context.request.protocol, context.request.hostname)
+    //       console.log(todos[iTodo].users[iUser].photo)
+    //     })
+    //   )
+
+    //   console.log(`todos ---> ${todos}`, ` newTodos --> ${newTodos}`)
+    //   return newTodos
+    // },
   },
 
   Mutation: {
