@@ -40,7 +40,7 @@ const todoResolvers = {
               process.env.NODE_ENV === 'development'
                 ? `:${process.env.PORT || 3000}`
                 : ''
-            }/img/${user.photo}`,
+            }/img/user/${user.photo}`,
           }
         })
         // Slam the modified users array in the todo object
