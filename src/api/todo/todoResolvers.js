@@ -8,14 +8,6 @@ const {
 } = require('../resolverFactory')
 const AppError = require('../../utils/appError')
 
-// `${context.request.protocol}://${
-//             context.request.hostname
-//           }${
-//             process.env.NODE_ENV === 'development'
-//               ? `:${process.env.PORT || 3000}`
-//               : ''
-//           }/img/${user.photo}`
-
 const todoResolvers = {
   Query: {
     todos: () => findAll(Todo),
