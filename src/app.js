@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
+const { graphqlUploadExpress } = require('graphql-upload')
 const expressPlayground = require('graphql-playground-middleware-express')
   .default
 const { makeExecutableSchema } = require('graphql-tools')
@@ -38,6 +39,7 @@ const schema = makeExecutableSchema({
 app.use(
   '/graphql',
   bodyParser.json(),
+  graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   graphqlExpress(request => ({
     schema,
     context: { request },
