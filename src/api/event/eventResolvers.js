@@ -5,6 +5,7 @@ const {
   createOne,
   updateOne,
   deleteOne,
+  uploadOne,
 } = require('../resolverFactory')
 const { myEmitter } = require('../../utils/events')
 
@@ -55,6 +56,10 @@ const eventResolvers = {
     //! by updating the location non given fields get emptied
     updateEvent: (_, args) => updateOne(Event, args),
     deleteEvent: (_, { id }) => deleteOne(Event, id),
+    uploadHeroImg: async (_, { file }) => {
+      console.log('TRIIGGGERD')
+      await uploadOne(Event, file)
+    },
   },
 }
 
