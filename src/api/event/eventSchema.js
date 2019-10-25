@@ -79,6 +79,7 @@ const eventSchema = gql`
     deleteEvent(id: ID!): Event
 
     uploadHeroImg(file: Upload!): Event!
+    uploadImgs(file: Upload!): Event!
   }
 `
 

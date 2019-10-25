@@ -6,6 +6,7 @@ const {
   updateOne,
   deleteOne,
   uploadOne,
+  uploadMultiple,
 } = require('../resolverFactory')
 const { myEmitter } = require('../../utils/events')
 
@@ -57,8 +58,12 @@ const eventResolvers = {
     updateEvent: (_, args) => updateOne(Event, args),
     deleteEvent: (_, { id }) => deleteOne(Event, id),
     uploadHeroImg: async (_, { file }) => {
-      console.log('TRIIGGGERD')
       await uploadOne(Event, file)
+    },
+    uploadImgs: async (_, { file }) => {
+      console.log(file)
+      console.log('TRIIIIGGERD')
+      await uploadMultiple(Event, file)
     },
   },
 }
