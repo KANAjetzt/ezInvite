@@ -43,6 +43,23 @@ const eventSchema = gql`
     description: String
   }
 
+  input CreateEventInput {
+    name: String!
+    startDate: String!
+    endDate: String
+    startTime: String
+    endTime: String
+    description: String
+    heroImg: String
+    imgs: [String]
+    location: CreateLocationInput
+    widgetTypes: [String]
+  }
+
+  type CreateEventPayload {
+    event: Event!
+  }
+
   extend type Query {
     event(id: ID!): Event!
     events: [Event!]!
@@ -50,18 +67,7 @@ const eventSchema = gql`
   }
 
   extend type Mutation {
-    createEvent(
-      name: String!
-      startDate: String!
-      endDate: String
-      startTime: String
-      endTime: String
-      description: String
-      heroImg: String
-      imgs: [String]
-      location: CreateLocationInput
-      widgetTypes: [String]
-    ): Event!
+    createEvent(input: CreateEventInput!): CreateEventPayload!
 
     updateEvent(
       id: ID!

@@ -24,36 +24,10 @@ const eventResolvers = {
   },
 
   Mutation: {
-    createEvent: (
-      _,
-      {
-        name,
-        startDate,
-        endDate,
-        startTime,
-        endTime,
-        description,
-        heroImg,
-        imgs,
-        location,
-        widgetTypes,
-      }
-    ) => {
-      const event = {
-        name,
-        startDate,
-        endDate,
-        startTime,
-        endTime,
-        description,
-        heroImg,
-        imgs,
-        location,
-        widgets: [{ type: `${widgetTypes}` }],
-      }
-
-      return createOne(Event, event)
+    createEvent: async (_, { input }) => {
+      return { event: await createOne(Event, input) }
     },
+
     //! by updating the location non given fields get emptied
     updateEvent: (_, args) => updateOne(Event, args),
     deleteEvent: (_, { id }) => deleteOne(Event, id),
