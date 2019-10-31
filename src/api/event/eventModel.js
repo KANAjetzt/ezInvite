@@ -18,10 +18,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     default: 'defaultHero.jpg',
   },
-  imgs: {
-    type: [String],
-    default: ['defaultImg1.jpg', 'defaultImg2.jpg', 'defaultImg3.jpg'],
-  },
+  imgs: [String],
   location: {
     type: {
       type: String,
