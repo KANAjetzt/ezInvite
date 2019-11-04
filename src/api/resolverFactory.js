@@ -1,5 +1,7 @@
 const cloudinary = require('cloudinary').v2
 
+const asyncForEach = require('../utils/asyncForEach')
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -64,9 +66,19 @@ exports.uploadMultiple = async (Model, files, config = {}) => {
   })
 
   // Init upload stream to Cloudinary
-  await uploadedFiles.forEach(async img => {
-    await img.stream.pipe(uploadStream)
-  })
+
+  // const uploadImgs = async () => {
+  //   await asyncForEach(uploadedFiles, async img => {
+  //     const uploadedFile = img.stream.pipe(uploadStream)
+  //     uploadedFile.end()
+  //   })
+  // }
+
+  // uploadImgs()
+
+  // await uploadedFiles.forEach(async img => {
+  //   await img.stream.pipe(uploadStream)
+  // })
 
   // Save Img URL to Databse
 
