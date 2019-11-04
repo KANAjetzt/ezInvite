@@ -44,9 +44,10 @@ exports.uploadOne = async (Model, file, config = {}) => {
   return { filename, mimetype, encoding }
 }
 
-exports.uploadMultiple = async (Model, file, config = {}) => {
-  const { stream, filename, mimetype, encoding } = await file
-  console.log(filename)
+exports.uploadMultiple = async (Model, files, config = {}) => {
+  const uploadedFiles = await Promise.all(files)
+  console.log(uploadedFiles)
+
   // Configure upload to Cloudinary
   const uploadStream = await cloudinary.uploader.upload_stream(config, function(
     err,
@@ -63,7 +64,9 @@ exports.uploadMultiple = async (Model, file, config = {}) => {
   })
 
   // Init upload stream to Cloudinary
-  stream.pipe(uploadStream)
+  await uploadedFiles.forEach(async img => {
+    await img.stream.pipe(uploadStream)
+  })
 
   // Save Img URL to Databse
 

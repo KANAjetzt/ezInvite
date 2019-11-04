@@ -34,11 +34,23 @@ const eventResolvers = {
     uploadHeroImg: async (_, { file }) => {
       await uploadOne(Event, file)
     },
-    uploadImgs: async (_, { file }) => {
-      console.log(file)
+    uploadImgs: async (_, { files }) => {
+      console.log(files)
       console.log('TRIIIIGGERD')
-      await uploadMultiple(Event, file)
+      await uploadMultiple(Event, files)
     },
+    // multipleImgs: async (parent, { files }, { storeUpload }) {
+    //   const { resolve, reject } = await promisesAll.all(
+    //     files.map(storeUpload)
+    //   )
+
+    //   if (reject.length)
+    //     reject.forEach(({ name, message }) =>
+    //       console.error(`${name}: ${message}`)
+    //     )
+
+    //   return resolve
+    // }
   },
 }
 
