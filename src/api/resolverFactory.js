@@ -50,35 +50,21 @@ exports.uploadMultiple = async (Model, files, config = {}) => {
   const uploadedFiles = await Promise.all(files)
   console.log(uploadedFiles)
 
-  // Configure upload to Cloudinary
-  const uploadStream = await cloudinary.uploader.upload_stream(config, function(
-    err,
-    image
-  ) {
-    console.log()
-    console.log('** Stream Upload')
-    if (err) {
-      console.log(err)
-    }
-    console.log('* Same image, uploaded via stream')
-    console.log(`${image.public_id ? image.public_id : ''}`)
-    console.log(`${image.url ? image.url : ''}`)
-  })
-
   // Init upload stream to Cloudinary
-
-  // const uploadImgs = async () => {
-  //   await asyncForEach(uploadedFiles, async img => {
-  //     const uploadedFile = img.stream.pipe(uploadStream)
-  //     uploadedFile.end()
-  //   })
-  // }
-
-  // uploadImgs()
-
-  // await uploadedFiles.forEach(async img => {
-  //   await img.stream.pipe(uploadStream)
-  // })
+  uploadedFiles.forEach(img => {
+    img.createReadStream().pipe(
+      // Configure upload to Cloudinary
+      cloudinary.uploader.upload_stream(config, function(err, image) {
+        console.log()
+        console.log('** Stream Upload')
+        if (err) {
+          console.log(err)
+        }
+        console.log(`${image.public_id ? image.public_id : ''}`)
+        console.log(`${image.url ? image.url : ''}`)
+      })
+    )
+  })
 
   // Save Img URL to Databse
 

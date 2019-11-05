@@ -35,8 +35,6 @@ const eventResolvers = {
       await uploadOne(Event, file)
     },
     uploadImgs: async (_, { files }) => {
-      console.log(files)
-      console.log('TRIIIIGGERD')
       await uploadMultiple(Event, files)
     },
     // multipleImgs: async (parent, { files }, { storeUpload }) {
