@@ -15,13 +15,19 @@ const todoSchema = gql`
     todosForWidget(id: ID!): [Todo]
   }
 
+  type CreateTodoPayload {
+    todo: Todo!
+  }
+
+  input CreateTodoInput {
+    widget: ID!
+    text: String!
+    requiredPersons: Int
+    users: [ID]
+  }
+
   extend type Mutation {
-    createTodo(
-      widget: ID!
-      text: String!
-      requiredPersons: Int
-      users: [ID]
-    ): Todo!
+    createTodo(input: CreateTodoInput!): CreateTodoPayload!
     updateTodo(id: ID!, text: String, requiredPersons: Int, users: [ID]): Todo!
     deleteTodo(id: ID!): Todo
     addUserToTodo(id: ID!, user: ID!): Todo!

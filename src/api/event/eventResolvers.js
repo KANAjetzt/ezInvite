@@ -25,7 +25,12 @@ const eventResolvers = {
 
   Mutation: {
     createEvent: async (_, { input }) => {
-      return { event: await createOne(Event, input) }
+      const newInput = { ...input }
+      newInput.widgets = input.widgetTypes.map(type => {
+        return { type }
+      })
+
+      return { event: await createOne(Event, newInput) }
     },
 
     //! by updating the location non given fields get emptied
