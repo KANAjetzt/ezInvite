@@ -43,7 +43,9 @@ const todoResolvers = {
   },
 
   Mutation: {
-    createTodo: (_, args) => createOne(Todo, args),
+    createTodo: async (_, { input }) => {
+      return { todo: await createOne(Todo, input) }
+    },
 
     updateTodo: (_, args) => {
       // If users are not updatet - simple update all given fields
