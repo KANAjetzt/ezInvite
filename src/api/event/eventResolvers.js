@@ -26,11 +26,28 @@ const eventResolvers = {
   Mutation: {
     createEvent: async (_, { input }) => {
       const newInput = { ...input }
+
+      // create new widget based on type
       newInput.widgets = input.widgetTypes.map(type => {
         return { type }
       })
 
-      return { event: await createOne(Event, newInput) }
+      // clear imgs Array --> no validation error
+      newInput.imgs = []
+      newInput.heroImg = undefined
+
+      // Write input data to DB
+      const newEvent = await createOne(Event, newInput)
+      // console.log(newEvent)
+      console.log(newInput)
+
+      // Upload Hero Img and save URL to DB
+      uploadOne(Event, newEvent._id, input.heroImg)
+
+      // Upload Imgs from Img Stripe and save URLs to DB
+      uploadMultiple(Event, newEvent._id, input.imgs)
+
+      return { event: newEvent }
     },
 
     //! by updating the location non given fields get emptied
