@@ -47,6 +47,7 @@ exports.uploadOne = async (Model, id, file, config = {}) => {
   )
 }
 
+// BUG: If the Hero Img get's uploaded in between the 2 Img stripe imgs the upload of the 2. File fails
 exports.uploadMultiple = async (Model, id, files, config = {}) => {
   const uploadedFiles = await Promise.all(files)
   console.log(uploadedFiles)

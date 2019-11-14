@@ -42,10 +42,10 @@ const eventResolvers = {
       console.log(newInput)
 
       // Upload Hero Img and save URL to DB
-      uploadOne(Event, newEvent._id, input.heroImg)
+      if (input.heroImg) uploadOne(Event, newEvent._id, input.heroImg)
 
       // Upload Imgs from Img Stripe and save URLs to DB
-      uploadMultiple(Event, newEvent._id, input.imgs)
+      if (input.imgs) uploadMultiple(Event, newEvent._id, input.imgs)
 
       return { event: newEvent }
     },
