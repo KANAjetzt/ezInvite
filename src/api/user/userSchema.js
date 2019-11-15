@@ -15,8 +15,27 @@ const userSchema = gql`
     events: [ID!]
   }
 
+  type CreateUserPayload {
+    user: User!
+  }
+
+  type CreateUsersPayload {
+    users: [User]!
+  }
+
+  input CreateUserInput {
+    name: String!
+    event: ID!
+    photo: String
+  }
+
+  input CreateUsersInput {
+    users: [CreateUserInput]!
+  }
+
   type Mutation {
-    createUser(name: String!, event: ID!, photo: String): User!
+    createUser(input: CreateUserInput!): CreateUserPayload!
+    createUsers(input: CreateUsersInput!): CreateUsersPayload!
     updateUser(id: ID!, name: String, photo: String): User!
     toggleUserAccepted(id: ID!, accepted: Boolean): User!
   }

@@ -1,4 +1,5 @@
 const User = require('./userModel')
+const asyncForEach = require('../../utils/asyncForEach')
 const { findOne, findAll, createOne, updateOne } = require('../resolverFactory')
 
 const userResolvers = {
@@ -19,6 +20,26 @@ const userResolvers = {
       }
 
       return createOne(User, user)
+    },
+    createUsers: async (_, { input }) => {
+      console.log(input)
+
+      let newUsers = []
+
+      await asyncForEach(input.users, async user => {
+        // make copy of user for savety reasons
+        const currentUser = { ...user }
+        // put the event in an Array
+        // (currently unnecessary but later users will maybe able to be in multiple events)
+        currentUser.events = [user.event]
+        // Save User in DB
+        const newUser = await User.create(currentUser)
+        // Add createdUser to newUsers Array
+        newUsers = [...newUsers, newUser]
+      })
+
+      console.log(newUsers)
+      return { users: newUsers }
     },
     updateUser: (_, args) => updateOne(User, args),
 
