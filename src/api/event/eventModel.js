@@ -1,4 +1,6 @@
+const crypto = require('crypto')
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 const { myEmitter } = require('../../utils/events')
 
 const eventSchema = new mongoose.Schema({
@@ -42,6 +44,8 @@ const eventSchema = new mongoose.Schema({
       },
     },
   ],
+  slug: String,
+  link: String,
 })
 
 // Emit Event widgetCreated when ever a new Event is created,
@@ -53,6 +57,18 @@ const eventSchema = new mongoose.Schema({
 //   myEmitter.emit('widgetCreated', doc.widgets)
 //   next()
 // })
+
+// ############# DOCUMENT MIDDLEWARE ###############
+eventSchema.pre('save', function(next) {
+  this.slug = slugify(this.name, { lower: true })
+  next()
+})
+
+eventSchema.pre('save', function(next) {
+  // Generate a random URL Path to sahre Event publicly
+  this.link = crypto.randomBytes(3).toString('hex')
+  next()
+})
 
 // ############# QUERY MIDDLEWARE ###############
 
