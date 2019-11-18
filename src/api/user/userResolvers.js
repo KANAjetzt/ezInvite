@@ -22,8 +22,6 @@ const userResolvers = {
       return createOne(User, user)
     },
     createUsers: async (_, { input }) => {
-      console.log(input)
-
       let newUsers = []
 
       await asyncForEach(input.users, async user => {
@@ -38,7 +36,6 @@ const userResolvers = {
         newUsers = [...newUsers, newUser]
       })
 
-      console.log(newUsers)
       return { users: newUsers }
     },
     updateUser: (_, args) => updateOne(User, args),
