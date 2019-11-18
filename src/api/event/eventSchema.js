@@ -14,6 +14,8 @@ const eventSchema = gql`
     location: Location
     widgets: [Widget]
     users: [Users]
+    link: String
+    slug: String
   }
 
   type Users {
