@@ -19,7 +19,15 @@ myEmitter.on('userCreated', async props => {
 
 const eventResolvers = {
   Query: {
-    event: (_, { id }) => findOne(Event, id),
+    event: async (_, { input }) => {
+      // find One Event with the input slug and link
+      const event = await Event.findOne({
+        slug: input.slug,
+        link: input.link,
+      })
+
+      return event
+    },
     events: () => findAll(Event),
   },
 

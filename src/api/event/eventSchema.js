@@ -38,6 +38,12 @@ const eventSchema = gql`
     description: String
   }
 
+  input QueryEventInput {
+    id: ID
+    link: String!
+    slug: String!
+  }
+
   input CreateLocationInput {
     coordinates: [Float!]!
     name: String
@@ -63,7 +69,7 @@ const eventSchema = gql`
   }
 
   extend type Query {
-    event(id: ID!): Event!
+    event(input: QueryEventInput!): Event!
     events: [Event!]!
     widgets: [Widget]
   }
