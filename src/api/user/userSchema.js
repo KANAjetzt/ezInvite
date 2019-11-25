@@ -23,6 +23,10 @@ const userSchema = gql`
     users: [User]!
   }
 
+  type ToggleUserAcceptedPayload {
+    user: User!
+  }
+
   input CreateUserInput {
     name: String!
     event: ID!
@@ -33,11 +37,18 @@ const userSchema = gql`
     users: [CreateUserInput]!
   }
 
+  input ToggleUserAcceptedInput {
+    link: String
+    accepted: Boolean
+  }
+
   type Mutation {
     createUser(input: CreateUserInput!): CreateUserPayload!
     createUsers(input: CreateUsersInput!): CreateUsersPayload!
     updateUser(id: ID!, name: String, photo: String): User!
-    toggleUserAccepted(id: ID!, accepted: Boolean): User!
+    toggleUserAccepted(
+      input: ToggleUserAcceptedInput!
+    ): ToggleUserAcceptedPayload!
   }
 `
 

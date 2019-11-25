@@ -42,7 +42,16 @@ const userResolvers = {
 
     // ! For 1.1 this needs some work !
     // ! User is set to accapted - with multiply events this will not work so ez
-    toggleUserAccepted: (_, args) => updateOne(User, args),
+    toggleUserAccepted: async (_, { input }) => {
+      // query user by link and update accapted state
+      const updatedUser = await User.findOneAndUpdate(
+        { link: input.link },
+        { accepted: input.accepted },
+        { new: true }
+      )
+
+      return { user: updatedUser }
+    },
   },
 }
 
