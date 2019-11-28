@@ -53,17 +53,14 @@ const userResolvers = {
       if (input.photo) {
         // upload new image
         const imgUrl = await uploadOne(User, input.user, input.photo)
-        console.log('################')
-        console.log(imgUrl)
         newInput.photo = imgUrl.imgUrl
       }
 
-      // change user property to id so and delte user property
+      // change user property to id
       newInput.id = input.user
+      // and delte user property because updateOne searchs .id in
+      // newInput
       delete newInput.user
-      console.log('--- newInput ---')
-      console.log(newInput)
-      console.log('--- newInput ---')
 
       const updatedUser = await updateOne(User, newInput)
       return { user: updatedUser }

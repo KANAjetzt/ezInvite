@@ -23,9 +23,6 @@ exports.findAll = async Model => await Model.find()
 
 exports.uploadOne = async (Model, id, file, config = {}) => {
   const img = await file
-  console.log(img)
-  console.log(id)
-  let imgUrl
 
   // Front End Img Upload Stream --> Backend
   const imgStream = img.createReadStream()
@@ -35,16 +32,9 @@ exports.uploadOne = async (Model, id, file, config = {}) => {
     err,
     image
   ) {
-    console.log()
-    console.log('** Stream Upload')
     if (err) {
       console.log(err)
     } else {
-      console.log(`${image.public_id ? image.public_id : ''}`)
-      console.log(`${image.url ? image.url : ''}`)
-      imgUrl = image.url ? image.url : null
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      console.log(imgUrl)
       myEmitter.emit('uploaddone', { imgUrl: image.url })
     }
   })
@@ -52,18 +42,10 @@ exports.uploadOne = async (Model, id, file, config = {}) => {
   // Promise Img Upload pipeline
   return new Promise((resolve, reject) => {
     imgStream
-      .on('error', e => {
-        console.log('--- igmStream ---')
-        console.log(e)
-        reject(e)
-      })
+      .on('error', e => reject(e))
       .pipe(cloudinaryStream)
       .on('error', e => reject(e))
-    myEmitter.on('uploaddone', e => {
-      console.log('RESOLVED')
-      console.log(e)
-      resolve(e)
-    })
+    myEmitter.on('uploaddone', e => resolve(e))
   })
 }
 
