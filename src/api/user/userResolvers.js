@@ -1,10 +1,19 @@
 const User = require('./userModel')
 const asyncForEach = require('../../utils/asyncForEach')
-const { findOne, findAll, createOne, updateOne } = require('../resolverFactory')
+const {
+  findOne,
+  findAll,
+  createOne,
+  updateOne,
+  uploadOne,
+} = require('../resolverFactory')
 
 const userResolvers = {
   Query: {
     user: (_, { id }) => findOne(User, id),
+    userByLink: async (_, { link }) => {
+      return await User.findOne({ link: link })
+    },
     users: () => findAll(User),
   },
 
@@ -38,7 +47,27 @@ const userResolvers = {
 
       return { users: newUsers }
     },
-    updateUser: (_, args) => updateOne(User, args),
+    updateUser: async (_, { input }) => {
+      const newInput = { ...input }
+      // if photo is given
+      if (input.photo) {
+        // upload new image
+        const imgUrl = await uploadOne(User, input.user, input.photo)
+        console.log('################')
+        console.log(imgUrl)
+        newInput.photo = imgUrl.imgUrl
+      }
+
+      // change user property to id so and delte user property
+      newInput.id = input.user
+      delete newInput.user
+      console.log('--- newInput ---')
+      console.log(newInput)
+      console.log('--- newInput ---')
+
+      const updatedUser = await updateOne(User, newInput)
+      return { user: updatedUser }
+    },
 
     // ! For 1.1 this needs some work !
     // ! User is set to accapted - with multiply events this will not work so ez

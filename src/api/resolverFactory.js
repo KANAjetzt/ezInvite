@@ -1,5 +1,6 @@
 const cloudinary = require('cloudinary').v2
 
+const { myEmitter } = require('../utils/events')
 const asyncForEach = require('../utils/asyncForEach')
 
 cloudinary.config({
@@ -10,8 +11,8 @@ cloudinary.config({
 
 exports.createOne = async (Model, body) => await Model.create(body)
 
-exports.updateOne = async (Model, body) =>
-  await Model.findByIdAndUpdate(body.id, body, {
+exports.updateOne = async (Model, body, id) =>
+  await Model.findByIdAndUpdate(body.id ? body.id : id, body, {
     new: true,
     runValidators: true,
   })
@@ -23,28 +24,47 @@ exports.findAll = async Model => await Model.find()
 exports.uploadOne = async (Model, id, file, config = {}) => {
   const img = await file
   console.log(img)
+  console.log(id)
+  let imgUrl
 
-  // Init upload stream to Cloudinary
-  img.createReadStream().pipe(
-    // Configure upload to Cloudinary
-    cloudinary.uploader.upload_stream(config, async function(err, image) {
-      console.log()
-      console.log('** Stream Upload')
-      if (err) {
-        console.log(err)
-      }
+  // Front End Img Upload Stream --> Backend
+  const imgStream = img.createReadStream()
+
+  // Backend --> Cloudinary Upload Stream
+  const cloudinaryStream = cloudinary.uploader.upload_stream(config, function(
+    err,
+    image
+  ) {
+    console.log()
+    console.log('** Stream Upload')
+    if (err) {
+      console.log(err)
+    } else {
       console.log(`${image.public_id ? image.public_id : ''}`)
       console.log(`${image.url ? image.url : ''}`)
-      await Model.findByIdAndUpdate(
-        id,
-        { heroImg: image.url },
-        {
-          new: true,
-          runValidators: true,
-        }
-      )
+      imgUrl = image.url ? image.url : null
+      console.log('!!!!!!!!!!!!!!!!!!!!')
+      console.log(imgUrl)
+      myEmitter.emit('uploaddone', { imgUrl: image.url })
+    }
+  })
+
+  // Promise Img Upload pipeline
+  return new Promise((resolve, reject) => {
+    imgStream
+      .on('error', e => {
+        console.log('--- igmStream ---')
+        console.log(e)
+        reject(e)
+      })
+      .pipe(cloudinaryStream)
+      .on('error', e => reject(e))
+    myEmitter.on('uploaddone', e => {
+      console.log('RESOLVED')
+      console.log(e)
+      resolve(e)
     })
-  )
+  })
 }
 
 // BUG: If the Hero Img get's uploaded in between the 2 Img stripe imgs the upload of the 2. File fails
