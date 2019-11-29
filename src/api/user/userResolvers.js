@@ -52,7 +52,7 @@ const userResolvers = {
       // if photo is given
       if (input.photo) {
         // upload new image
-        const imgUrl = await uploadOne(User, input.user, input.photo)
+        const imgUrl = await uploadOne(input.photo)
         newInput.photo = imgUrl.imgUrl
       }
 

@@ -9,6 +9,7 @@ const {
   uploadMultiple,
 } = require('../resolverFactory')
 const { myEmitter } = require('../../utils/events')
+const asyncMap = require('../../utils/asyncMap')
 
 // Create the user reverence when a new User is created
 myEmitter.on('userCreated', async props => {
@@ -33,6 +34,7 @@ const eventResolvers = {
 
   Mutation: {
     createEvent: async (_, { input }) => {
+      // create copy of input for savety reasons
       const newInput = { ...input }
 
       // create new widget based on type
@@ -40,20 +42,23 @@ const eventResolvers = {
         return { type }
       })
 
-      // clear imgs Array --> no validation error
-      newInput.imgs = []
-      newInput.heroImg = undefined
+      if (input.heroImg) {
+        // Upload Hero Img
+        const imgUrl = await uploadOne(input.heroImg)
+        newInput.heroImg = imgUrl.imgUrl
+      }
 
+      if (input.imgs) {
+        // Upload Imgs from Img Stripe
+        const imgUrls = await asyncMap(input.imgs, async img => {
+          const imgUrl = await uploadOne(img)
+          return imgUrl.imgUrl
+        })
+
+        newInput.imgs = imgUrls
+      }
       // Write input data to DB
-      const newEvent = await createOne(Event, newInput)
-      // console.log(newEvent)
-      console.log(newInput)
-
-      // Upload Hero Img and save URL to DB
-      if (input.heroImg) uploadOne(Event, newEvent._id, input.heroImg)
-
-      // Upload Imgs from Img Stripe and save URLs to DB
-      if (input.imgs) uploadMultiple(Event, newEvent._id, input.imgs)
+      const newEvent = createOne(Event, newInput)
 
       return { event: newEvent }
     },
