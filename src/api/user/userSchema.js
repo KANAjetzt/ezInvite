@@ -36,6 +36,7 @@ const userSchema = gql`
     name: String!
     event: ID!
     photo: Upload
+    accepted: Boolean
   }
 
   input CreateUsersInput {
@@ -46,6 +47,7 @@ const userSchema = gql`
     user: ID!
     name: String
     photo: Upload
+    accepted: Boolean
   }
 
   input ToggleUserAcceptedInput {
