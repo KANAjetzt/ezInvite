@@ -35,7 +35,7 @@ const userSchema = gql`
   input CreateUserInput {
     name: String!
     event: ID!
-    photo: String
+    photo: Upload
   }
 
   input CreateUsersInput {

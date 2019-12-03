@@ -21,14 +21,26 @@ const userResolvers = {
     //! For 1.0 - 1 User --> 1 Event  - No User Login / Profiles
     //! For 1.1 - 1 User --> MANY Events - User Profiles / Login implemtation
 
-    createUser: (_, { name, event, photo }) => {
-      const user = {
-        name,
-        events: { _id: `${event}` },
-        photo,
+    createUser: async (_, { input }) => {
+      const newInput = { ...input }
+      console.log(input)
+      // if photo is given
+      if (input.photo) {
+        try {
+          // upload new image
+          const imgUrl = await uploadOne(input.photo)
+          newInput.photo = imgUrl.imgUrl
+        } catch (err) {
+          console.log(`error uploading User Profile Img: ${err}`)
+        }
       }
 
-      return createOne(User, user)
+      newInput.events = { _id: `${input.event}` }
+
+      const createdUser = await createOne(User, newInput)
+      console.log(createdUser)
+
+      return { user: createdUser }
     },
     createUsers: async (_, { input }) => {
       let newUsers = []
