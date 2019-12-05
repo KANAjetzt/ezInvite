@@ -23,7 +23,6 @@ const userResolvers = {
 
     createUser: async (_, { input }) => {
       const newInput = { ...input }
-      console.log(input)
       // if photo is given
       if (input.photo) {
         try {
@@ -38,10 +37,10 @@ const userResolvers = {
       newInput.events = { _id: `${input.event}` }
 
       const createdUser = await createOne(User, newInput)
-      console.log(createdUser)
 
       return { user: createdUser }
     },
+
     createUsers: async (_, { input }) => {
       let newUsers = []
 
@@ -59,6 +58,7 @@ const userResolvers = {
 
       return { users: newUsers }
     },
+
     updateUser: async (_, { input }) => {
       const newInput = { ...input }
       // if photo is given
