@@ -21,7 +21,9 @@ const todoResolvers = {
 
   Mutation: {
     createTodo: async (_, { input }) => {
-      return { todo: await createOne(Todo, input) }
+      const newTodo = await Todo.create(input)
+      await newTodo.populate('users').execPopulate()
+      return { todo: newTodo }
     },
 
     updateTodo: (_, args) => {
@@ -38,11 +40,9 @@ const todoResolvers = {
     //TODO: Performance Optimisation
     //? Maybe add pre save hook that pushs new Users - would save 1 query
     addUserToTodo: async (_, { input }) => {
-      console.log(input)
       const todo = await Todo.findById(input.id)
       todo.users.push(input.user)
       const newTodo = await updateOne(Todo, todo)
-      console.log(newTodo)
       return { todo: newTodo }
     },
 

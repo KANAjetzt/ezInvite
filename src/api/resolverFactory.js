@@ -1,8 +1,6 @@
 const cloudinary = require('cloudinary').v2
 
 const { myEmitter } = require('../utils/events')
-const asyncForEach = require('../utils/asyncForEach')
-const asyncMap = require('../utils/asyncMap')
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
