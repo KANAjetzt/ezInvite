@@ -38,9 +38,11 @@ const eventResolvers = {
       const newInput = { ...input }
 
       // create new widget based on type
-      newInput.widgets = input.widgetTypes.map(type => {
-        return { type }
-      })
+      if (newInput.widgets) {
+        newInput.widgets = input.widgetTypes.map(type => {
+          return { type }
+        })
+      }
 
       if (input.heroImg) {
         // Upload Hero Img
