@@ -36,12 +36,14 @@ const eventResolvers = {
     createEvent: async (_, { input }) => {
       // create copy of input for savety reasons
       const newInput = { ...input }
+      console.log(newInput)
 
       // create new widget based on type
-      if (newInput.widgets) {
+      if (newInput.widgetTypes) {
         newInput.widgets = input.widgetTypes.map(type => {
           return { type }
         })
+        console.log(newInput)
       }
 
       if (input.heroImg) {
@@ -60,8 +62,8 @@ const eventResolvers = {
         newInput.imgs = imgUrls
       }
       // Write input data to DB
-      const newEvent = createOne(Event, newInput)
-
+      const newEvent = await createOne(Event, newInput)
+      console.log(newEvent)
       return { event: newEvent }
     },
 
