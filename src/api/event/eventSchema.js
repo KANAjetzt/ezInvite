@@ -15,6 +15,7 @@ const eventSchema = gql`
     widgets: [Widget]
     users: [Users]
     link: String
+    editLink: String
     slug: String
   }
 

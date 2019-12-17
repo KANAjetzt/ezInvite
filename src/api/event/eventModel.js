@@ -46,6 +46,7 @@ const eventSchema = new mongoose.Schema({
   ],
   slug: String,
   link: String,
+  editLink: String,
 })
 
 // Emit Event widgetCreated when ever a new Event is created,
@@ -60,13 +61,15 @@ const eventSchema = new mongoose.Schema({
 
 // ############# DOCUMENT MIDDLEWARE ###############
 eventSchema.pre('save', function(next) {
+  // Generate slug based on event name
   this.slug = slugify(this.name, { lower: true })
-  next()
-})
 
-eventSchema.pre('save', function(next) {
   // Generate a random URL Path to sahre Event publicly
   this.link = crypto.randomBytes(3).toString('hex')
+
+  // Generate a random URL Path to edit the event
+  this.editLink = crypto.randomBytes(3).toString('hex')
+
   next()
 })
 
