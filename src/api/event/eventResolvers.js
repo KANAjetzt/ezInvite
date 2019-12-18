@@ -21,13 +21,24 @@ myEmitter.on('userCreated', async props => {
 const eventResolvers = {
   Query: {
     event: async (_, { input }) => {
-      // find One Event with the input slug and link
-      const event = await Event.findOne({
-        slug: input.slug,
-        link: input.link,
-      })
-
-      return event
+      // when the event link is given
+      if (input.link) {
+        // find One Event with the input slug and link
+        const event = await Event.findOne({
+          slug: input.slug,
+          link: input.link,
+        })
+        return event
+      }
+      // when the event editLink is given
+      if (input.editLink) {
+        // find One Event with the input slug and editLink
+        const event = await Event.findOne({
+          slug: input.slug,
+          editLink: input.editLink,
+        })
+        return event
+      }
     },
     events: () => findAll(Event),
   },
@@ -36,14 +47,12 @@ const eventResolvers = {
     createEvent: async (_, { input }) => {
       // create copy of input for savety reasons
       const newInput = { ...input }
-      console.log(newInput)
 
       // create new widget based on type
       if (newInput.widgetTypes) {
         newInput.widgets = input.widgetTypes.map(type => {
           return { type }
         })
-        console.log(newInput)
       }
 
       if (input.heroImg) {
@@ -63,7 +72,6 @@ const eventResolvers = {
       }
       // Write input data to DB
       const newEvent = await createOne(Event, newInput)
-      console.log(newEvent)
       return { event: newEvent }
     },
 

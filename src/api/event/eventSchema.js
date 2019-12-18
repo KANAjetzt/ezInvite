@@ -41,7 +41,8 @@ const eventSchema = gql`
 
   input QueryEventInput {
     id: ID
-    link: String!
+    link: String
+    editLink: String
     slug: String!
   }
 
