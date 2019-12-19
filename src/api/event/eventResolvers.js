@@ -76,26 +76,46 @@ const eventResolvers = {
     },
 
     //! by updating the location non given fields get emptied
-    updateEvent: (_, args) => updateOne(Event, args),
+    updateEvent: async (_, { input }) => {
+      // create copy of input for savety reasons
+      const newInput = { ...input }
+
+      // create new widget based on type
+      if (newInput.widgetTypes) {
+        newInput.widgets = input.widgetTypes.map(type => {
+          return { type }
+        })
+      }
+
+      if (input.heroImg) {
+        // Upload Hero Img
+        const imgUrl = await uploadOne(input.heroImg)
+        newInput.heroImg = imgUrl.imgUrl
+      }
+
+      if (input.imgs) {
+        // Upload Imgs from Img Stripe
+        const imgUrls = await asyncMap(input.imgs, async img => {
+          const imgUrl = await uploadOne(img)
+          return imgUrl.imgUrl
+        })
+
+        newInput.imgs = imgUrls
+      }
+      // Write input data to DB
+      const newEvent = await updateOne(Event, newInput, newInput.id)
+      return { event: newEvent }
+    },
+
     deleteEvent: (_, { id }) => deleteOne(Event, id),
+
     uploadHeroImg: async (_, { file }) => {
       await uploadOne(Event, file)
     },
+
     uploadImgs: async (_, { files }) => {
       await uploadMultiple(Event, files)
     },
-    // multipleImgs: async (parent, { files }, { storeUpload }) {
-    //   const { resolve, reject } = await promisesAll.all(
-    //     files.map(storeUpload)
-    //   )
-
-    //   if (reject.length)
-    //     reject.forEach(({ name, message }) =>
-    //       console.error(`${name}: ${message}`)
-    //     )
-
-    //   return resolve
-    // }
   },
 }
 
