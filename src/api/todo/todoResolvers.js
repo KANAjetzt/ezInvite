@@ -26,15 +26,16 @@ const todoResolvers = {
       return { todo: newTodo }
     },
 
-    updateTodo: (_, args) => {
+    updateTodo: (_, { input }) => {
       // If users are not updatet - simple update all given fields
-      if (args.users)
+      if (input.users)
         return new AppError(
           'Please use removeUser / addUser Mutation to update Users!'
         )
 
-      return updateOne(Todo, args)
+      return updateOne(Todo, input)
     },
+
     deleteTodo: (_, args) => deleteOne(Todo, args),
 
     //TODO: Performance Optimisation

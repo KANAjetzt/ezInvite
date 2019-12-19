@@ -19,6 +19,14 @@ const todoSchema = gql`
     todo: Todo!
   }
 
+  type UpdateTodoPayload {
+    todo: Todo!
+  }
+
+  type UpdateTodosPayload {
+    todo: Todo!
+  }
+
   type AddUserToTodoPayload {
     todo: Todo!
   }
@@ -30,6 +38,17 @@ const todoSchema = gql`
     users: [ID]
   }
 
+  input UpdateTodoInput {
+    id: ID!
+    text: String
+    requiredPersons: Int
+    users: [ID]
+  }
+
+  input UpdateTodosInput {
+    todos: [UpdateTodoInput]!
+  }
+
   input AddUserToTodoInput {
     id: ID!
     user: ID!
@@ -37,7 +56,8 @@ const todoSchema = gql`
 
   extend type Mutation {
     createTodo(input: CreateTodoInput!): CreateTodoPayload!
-    updateTodo(id: ID!, text: String, requiredPersons: Int, users: [ID]): Todo!
+    updateTodo(input: UpdateTodoInput!): UpdateTodoPayload!
+    updateTodos(input: UpdateTodosInput!): UpdateTodosPayload!
     deleteTodo(id: ID!): Todo
     addUserToTodo(input: AddUserToTodoInput!): AddUserToTodoPayload!
     removeUserFromTodo(id: ID!, user: ID!): Todo!
