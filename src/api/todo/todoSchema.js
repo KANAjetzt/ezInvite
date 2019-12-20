@@ -27,6 +27,10 @@ const todoSchema = gql`
     todo: Todo!
   }
 
+  type DeleteTodoPayload {
+    success: Boolean!
+  }
+
   type AddUserToTodoPayload {
     todo: Todo!
   }
@@ -49,6 +53,10 @@ const todoSchema = gql`
     todos: [UpdateTodoInput]!
   }
 
+  input DeleteTodoInput {
+    id: ID!
+  }
+
   input AddUserToTodoInput {
     id: ID!
     user: ID!
@@ -58,7 +66,7 @@ const todoSchema = gql`
     createTodo(input: CreateTodoInput!): CreateTodoPayload!
     updateTodo(input: UpdateTodoInput!): UpdateTodoPayload!
     updateTodos(input: UpdateTodosInput!): UpdateTodosPayload!
-    deleteTodo(id: ID!): Todo
+    deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload!
     addUserToTodo(input: AddUserToTodoInput!): AddUserToTodoPayload!
     removeUserFromTodo(id: ID!, user: ID!): Todo!
   }

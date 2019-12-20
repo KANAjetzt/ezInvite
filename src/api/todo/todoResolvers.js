@@ -36,7 +36,12 @@ const todoResolvers = {
       return updateOne(Todo, input)
     },
 
-    deleteTodo: (_, args) => deleteOne(Todo, args),
+    deleteTodo: async (_, { input }) => {
+      await deleteOne(Todo, input.id)
+
+      // TODO: maybe I could actually check if the thing got deleted 🙃
+      return { success: true }
+    },
 
     //TODO: Performance Optimisation
     //? Maybe add pre save hook that pushs new Users - would save 1 query
