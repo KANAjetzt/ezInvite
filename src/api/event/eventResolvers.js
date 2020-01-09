@@ -87,13 +87,13 @@ const eventResolvers = {
         })
       }
 
-      if (input.heroImg) {
+      if (input.heroImg && typeof input.heroImg !== 'string') {
         // Upload Hero Img
         const imgUrl = await uploadOne(input.heroImg)
         newInput.heroImg = imgUrl.imgUrl
       }
 
-      if (input.imgs) {
+      if (input.imgs && typeof input.heroImg !== 'string') {
         // Upload Imgs from Img Stripe
         const imgUrls = await asyncMap(input.imgs, async img => {
           const imgUrl = await uploadOne(img)

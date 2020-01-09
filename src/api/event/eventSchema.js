@@ -77,8 +77,8 @@ const eventSchema = gql`
     startTime: String
     endTime: String
     description: String
-    heroImg: String
-    imgs: [String]
+    heroImg: Upload
+    imgs: Upload
     location: CreateLocationInput
     widgetTypes: [String]
   }
