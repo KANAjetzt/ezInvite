@@ -6,6 +6,7 @@ const {
   updateOne,
   deleteOne,
 } = require('../resolverFactory')
+const asyncMap = require('../../utils/asyncMap')
 const AppError = require('../../utils/appError')
 
 const todoResolvers = {
@@ -24,6 +25,15 @@ const todoResolvers = {
       const newTodo = await Todo.create(input)
       await newTodo.populate('users').execPopulate()
       return { todo: newTodo }
+    },
+
+    createTodos: async (_, { input }) => {
+      const newTodos = asyncMap(input.todos, async todo => {
+        const newTodo = await Todo.create(todo)
+        await newTodo.populate('users').execPopulate()
+      })
+
+      return { todos: newTodos }
     },
 
     updateTodo: (_, { input }) => {
