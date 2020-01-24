@@ -93,7 +93,7 @@ const eventResolvers = {
         newInput.heroImg = imgUrl.imgUrl
       }
 
-      if (input.imgs && typeof input.heroImg !== 'string') {
+      if (input.imgs && typeof input.imgs[0] !== 'string') {
         // Upload Imgs from Img Stripe
         const imgUrls = await asyncMap(input.imgs, async img => {
           const imgUrl = await uploadOne(img)
