@@ -39,6 +39,10 @@ const todoSchema = gql`
     todo: Todo!
   }
 
+  type RemoveUserFromTodoPayload {
+    todo: Todo!
+  }
+
   input CreateTodoInput {
     widget: ID!
     text: String!
@@ -70,6 +74,11 @@ const todoSchema = gql`
     user: ID!
   }
 
+  input RemoveUserFromTodoInput {
+    id: ID!
+    user: ID!
+  }
+
   extend type Mutation {
     createTodo(input: CreateTodoInput!): CreateTodoPayload!
     createTodos(input: CreateTodosInput!): CreateTodosPayload!
@@ -77,7 +86,9 @@ const todoSchema = gql`
     updateTodos(input: UpdateTodosInput!): UpdateTodosPayload!
     deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload!
     addUserToTodo(input: AddUserToTodoInput!): AddUserToTodoPayload!
-    removeUserFromTodo(id: ID!, user: ID!): Todo!
+    removeUserFromTodo(
+      input: RemoveUserFromTodoInput!
+    ): RemoveUserFromTodoPayload!
   }
 `
 

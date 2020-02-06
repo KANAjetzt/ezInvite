@@ -53,29 +53,31 @@ const todoResolvers = {
       return { success: true }
     },
 
-    //TODO: Performance Optimisation
-    //? Maybe add pre save hook that pushs new Users - would save 1 query
     addUserToTodo: async (_, { input }) => {
       const todo = await Todo.findById(input.id)
+
+      // add User
       todo.users.push(input.user)
+
+      // update requiredPerson count
+      todo.requiredPersons -= 1
+
       const newTodo = await updateOne(Todo, todo)
       return { todo: newTodo }
     },
 
-    //TODO: Performance Optimisation
-    //? Maybe add pre save hook that pushs new Users - would save 1 query
-    removeUserFromTodo: async (_, { id, user }) => {
-      const todo = await Todo.findById(id)
+    removeUserFromTodo: async (_, { input }) => {
+      const todo = await Todo.findById(input.id)
+      const userIndex = todo.users.findIndex(user => user.id === input.user.id)
 
-      let deleted = false
-      todo.users.forEach((currentUser, i, arr) => {
-        if (`${currentUser}` === `${user}` && deleted === false) {
-          arr.splice(i, 1)
-          deleted = true
-        }
-      })
+      // Delte 1 entry of this user
+      todo.users.splice(userIndex, 1)
 
-      return updateOne(Todo, todo)
+      // update requriedPerson count
+      todo.requiredPersons += 1
+
+      const newTodo = await updateOne(Todo, todo)
+      return { todo: newTodo }
     },
   },
 }
