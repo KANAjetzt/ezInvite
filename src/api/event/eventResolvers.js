@@ -75,7 +75,7 @@ const eventResolvers = {
       return { event: newEvent }
     },
 
-    //! by updating the location non given fields get emptied
+    //! Img removel needs more clean up --> remove img from cloudinary
     updateEvent: async (_, { input }) => {
       // create copy of input for savety reasons
       const newInput = { ...input }
