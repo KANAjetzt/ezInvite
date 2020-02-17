@@ -8,11 +8,17 @@ const expressPlayground = require('graphql-playground-middleware-express')
 const { makeExecutableSchema } = require('graphql-tools')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
+const mongoSanitize = require('express-mongo-sanitize')
+const xss = require('xss-clean')
 
 const typeDefs = require('./typeDefs')
 const resolvers = require('./resolvers')
 
 const app = express()
+
+// Set security HTTP headers
+app.use(helmet())
 
 // Implement Cors
 app.use(cors())
@@ -42,7 +48,9 @@ const schema = makeExecutableSchema({
 // The GraphQL endpoint
 app.use(
   '/graphql',
-  bodyParser.json(),
+  bodyParser.json({ limit: '10kb' }),
+  mongoSanitize(),
+  xss(),
   graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   graphqlExpress(request => ({
     schema,
