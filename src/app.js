@@ -1,13 +1,13 @@
-const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
+const { graphqlExpress } = require('apollo-server-express')
 const { graphqlUploadExpress } = require('graphql-upload')
 const expressPlayground = require('graphql-playground-middleware-express')
   .default
 const { makeExecutableSchema } = require('graphql-tools')
 const cors = require('cors')
+const rateLimit = require('express-rate-limit')
 
 const typeDefs = require('./typeDefs')
 const resolvers = require('./resolvers')
@@ -20,14 +20,18 @@ app.use(cors())
 // Complex requests --> everything that is not get / post, or sends custom headers or cookies.  )
 app.options('*', cors())
 
-// Serving static files
-app.use(express.static(path.join(__dirname, 'public')))
-console.log(path.join(__dirname, 'public'))
-
 // Developtment logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
+
+// Limit requests from 1 IP, to 100 per minute
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 1000,
+  message: 'To many requests from this IP, please try again later!',
+})
+app.use('/graphql', limiter)
 
 // Put together a schema
 const schema = makeExecutableSchema({
@@ -47,9 +51,8 @@ app.use(
 )
 
 // GraphQL Playground, a visual editor for queries
-app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
-
-// GraphiQL, a visual editor for queries
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
+if (process.env.NODE_ENV === 'development') {
+  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+}
 
 module.exports = app
