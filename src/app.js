@@ -21,10 +21,14 @@ const app = express()
 app.use(helmet())
 
 // Implement Cors
-app.use(cors())
+app.use(
+  cors({
+    origin: `${process.env.ALLOWED_ORIGIN}`,
+  })
+)
 
 // Complex requests --> everything that is not get / post, or sends custom headers or cookies.  )
-app.options('*', cors())
+app.options('*', cors({ origin: `${process.env.ALLOWED_ORIGIN}` }))
 
 // Developtment logging
 if (process.env.NODE_ENV === 'development') {
