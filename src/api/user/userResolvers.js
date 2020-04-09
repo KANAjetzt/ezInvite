@@ -28,7 +28,9 @@ const userResolvers = {
         try {
           // upload new image
           const imgUrl = await uploadOne(input.photo)
-          newInput.photo = imgUrl.imgUrl
+          const imgUrlSplit = imgUrl.imgUrl.split('/')
+          console.log(imgUrlSplit[imgUrlSplit.length - 1])
+          newInput.photo = imgUrlSplit[imgUrlSplit.length - 1]
         } catch (err) {
           console.log(`error uploading User Profile Img: ${err}`)
         }
