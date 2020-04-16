@@ -34,7 +34,9 @@ exports.uploadOne = async (file, config = {}) => {
     if (err) {
       console.log(err)
     } else {
-      myEmitter.emit('uploaddone', { imgUrl: image.url })
+      myEmitter.emit('uploaddone', {
+        imgUrl: image.url.split('/')[image.url.split('/').length - 1],
+      })
     }
   })
 
