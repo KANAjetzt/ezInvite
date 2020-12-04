@@ -33,7 +33,7 @@ const eventSchema = gql`
   }
 
   type Location {
-    coordinates: [Float!]!
+    coordinates: [Float!]
     name: String
     address: String
     description: String
@@ -47,7 +47,7 @@ const eventSchema = gql`
   }
 
   input CreateLocationInput {
-    coordinates: [Float!]!
+    coordinates: [Float!]
     name: String
     address: String
     description: String
