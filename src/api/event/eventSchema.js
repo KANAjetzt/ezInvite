@@ -33,7 +33,7 @@ const eventSchema = gql`
   }
 
   type Location {
-    coordinates: [Float!]!
+    coordinates: [Float!]
     name: String
     address: String
     description: String
@@ -47,7 +47,7 @@ const eventSchema = gql`
   }
 
   input CreateLocationInput {
-    coordinates: [Float!]!
+    coordinates: [Float!]
     name: String
     address: String
     description: String
@@ -61,7 +61,7 @@ const eventSchema = gql`
     endTime: String
     description: String
     heroImg: Upload
-    imgs: Upload
+    imgs: [Upload]
     location: CreateLocationInput
     widgetTypes: [String]
   }
@@ -78,7 +78,7 @@ const eventSchema = gql`
     endTime: String
     description: String
     heroImg: Upload
-    imgs: Upload
+    imgs: [Upload]
     location: CreateLocationInput
     widgetTypes: [String]
   }
