@@ -25,7 +25,7 @@
     "graphql-tools": "^4.0.8",
     "graphql-upload": "^10.0.0",
     "helmet": "^3.23.3",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mongoose": "^5.11.3",
     "morgan": "^1.10.0",
     "slugify": "^1.4.6",
